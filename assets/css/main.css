@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'GymkhanaBk';
+    src: url(~assets/fonts/gymkhana-bk.ttf);
+    font-display: swap;
+}
+
+h1 {
+    @apply text-4xl text-gray;
+}

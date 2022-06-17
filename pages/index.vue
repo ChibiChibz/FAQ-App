@@ -1,5 +1,8 @@
 <template>
-  <Tutorial/>
+  <div>
+    <Header/>
+    <FAQ/>
+  </div>
 </template>
 
 <script>
