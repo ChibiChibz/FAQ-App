@@ -4,19 +4,35 @@
             <SearchInput v-model="message" /> {{ message }}
         </div>
         <div class="display bg-primary h-full min-h-4">
-
+          {{faqs}}
         </div>
     </div>
 </template>
 
 <script>
 export default {
+  head () {
+    return {
+      title: 'Payment Page - My awesome project',
+      script: [
+        {
+          hid: 'FAQ Data',
+          src: '/daten.js',
+          // Changed after script load
+          callback: () => { this.isDataLoaded = true } 
+        }
+      ]
+    }
+  },
   data() {
     return {
-      message: 'heasdfas'
+      message: 'heasdfas',
+      faqs: faqData,
     }
   }
 }
+console.log(faqData);
+
 </script>
 
 
