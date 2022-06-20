@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: [
-        '"GymkhanaBk"',
+        '"Inter"',
         'ui-sans-serif',
         'system-ui',
         ' -apple-system',
