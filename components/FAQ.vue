@@ -2,12 +2,20 @@
     <div class="faq flex h-full">
         <div class="faq__controller">
           <ul class="faq__controller__menu">
-            <li  v-for="category in faq" @click="showQuestions" class="faq__controller__menu__category text-gray cursor-pointer" >
+            <li  v-for="category in faq" @click="showQuestions" class="faq__controller__menu__category " >
                <span>&vrtri;</span> <span>{{category.menu}}</span> 
             </li>
           </ul>
           <div class="faq__controller__search">
             <input type="text" name="search" v-model="input" placeholder="Search keywords..." id="search" class="faq__controller__search-form " />
+          </div>
+          <div class="faq__controller__notes">
+            <h6>Notes:</h6>
+            <p>
+              The menu function and search function are implemented. Search has priority, which means when something is typed in the input the menu doesn't work.
+            </p>
+            <p>TODO: Styling, change activation area from li to the question div (right now answer also activates toggle)</p>
+            <p>Nice to have: transition and proper icons</p>
           </div>
         </div>
         <div class="faq__display">
@@ -35,7 +43,7 @@
 export default {
   head () {
     return {
-      title: 'Payment Page - My awesome project',
+      title: 'BB - Testproject',
       script: [
         {
           hid: 'FAQ Data',
@@ -79,25 +87,21 @@ export default {
     },
   },
   mounted(){
-    self=this;
+    //collecting all questions to one Object Array when loading the app
     this.faq.forEach(category => {
       category.fragen.forEach(pair => {
         this.questions.push({question: pair.frage, answer: pair.antwort})
       });
     });
-    console.log(this.questions);
   }
   ,
   computed: {
     filteredQuestions() {
+      //whenever search inputs is used
       if (this.input) {
         while (document.getElementsByClassName("faq__display__questions__questionWrapper active")[0]) {
           document.getElementsByClassName("faq__display__questions__questionWrapper active")[0].classList.remove("active");
         }
-        // console.log(this.input);
-        // console.log(this.questions.filter(pair => {
-        //   return this.input.toLowerCase().split(" ").every(v => pair.question.toLowerCase().includes(v) || pair.answer.toLowerCase().includes(v));
-        // }));
         return this.questions.filter(pair => {
           return this.input.toLowerCase().split(" ").every(v => pair.question.toLowerCase().includes(v) || pair.answer.toLowerCase().includes(v));
         });
@@ -113,12 +117,13 @@ export default {
 
 .faq{
   &__controller{
-      @apply w-1/4 bg-muted h-full;
+      @apply w-1/4 bg-muted text-gray h-full p-4;
 
       &__menu{
-        @apply m-4;
 
         &__category{
+          @apply  cursor-pointer;
+
           &.active{
             @apply text-text;
           }
@@ -126,11 +131,15 @@ export default {
       }
 
       &__search{
-        @apply m-4 relative lg:flex items-center;
+        @apply relative lg:flex items-center my-8;
 
         &-form{
-          @apply shadow-sm px-2 focus:ring-brand focus:border-brand block w-full lg:pr-12 sm:text-sm  rounded-sm;
+          @apply shadow-sm focus:ring-brand focus:border-brand block w-full lg:pr-12 sm:text-sm  rounded-sm;
         }
+      }
+
+      &__notes{
+        @apply text-sm;
       }
   }
   &__display{
