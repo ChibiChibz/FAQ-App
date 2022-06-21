@@ -57,6 +57,12 @@ export default {
       // safe questions from clicked category
       let category=this.faq.find(category => category.menu==event.currentTarget.lastChild.innerText);
       this.activeCategory=category;
+
+      // reset open answers
+      while (document.getElementsByClassName("faq__display__questions__questionWrapper active")[0]) {
+          document.getElementsByClassName("faq__display__questions__questionWrapper active")[0].classList.remove("active");
+      }
+      
     },
     toggleAnswer(event) {
       // process menu to display
@@ -94,11 +100,14 @@ console.log(faqData);
 
       &__questions{
         &__questionWrapper{
-          @apply text-gray cursor-pointer;
+          @apply text-gray cursor-pointer py-2;
 
           &.active{
+            .faq__display__questions__questionWrapper__question{
+              @apply bg-gray text-white;
+            }
             .faq__display__questions__questionWrapper__answer{
-              @apply block;
+              @apply block bg-white;
             }
           }
 
