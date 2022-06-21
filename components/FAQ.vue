@@ -1,10 +1,24 @@
 <template>
-    <div class="flex h-full">
-        <div class="controller bg-muted h-full min-h-4">
-            <SearchInput v-model="message" /> {{ message }}
+    <div class="faq flex h-full">
+        <div class="faq__controller">
+          <ul class="faq__controller__menu">
+            <li  v-for="category in faq" @click="showQuestions" class="faq__controller__menu__category text-gray cursor-pointer" >
+               <span>&vrtri;</span> <span>{{category.menu}}</span> 
+            </li>
+          </ul>
+          <div class="faq__controller__search">
+            <input type="text" name="search" v-model="input" placeholder="Search keywords..." id="search" class="shadow-sm px-2 focus:ring-brand focus:border-brand block w-full lg:pr-12 sm:text-sm border-gray-300 rounded-sm" />
+          </div>
         </div>
-        <div class="display bg-primary h-full min-h-4">
-          {{faqs}}
+        <div class="faq__display">
+          <div v-if="activeCategory" class="relative">
+            <ul class="faq__display__questions m-4">
+              <li  v-for="question in activeCategory.fragen" @click="toggleAnswer" class="faq__display__questions__questionWrapper " >
+                <div class="faq__display__questions__questionWrapper__question">{{question.frage}}</div>
+                <div class="faq__display__questions__questionWrapper__answer" v-html="question.antwort"></div>
+              </li>
+            </ul>
+          </div>
         </div>
     </div>
 </template>
@@ -27,8 +41,27 @@ export default {
   data() {
     return {
       message: 'heasdfas',
-      faqs: faqData,
+      faq: faqData,
+      activeCategory: undefined,
+      input: '',
     }
+  },
+  methods: {
+    showQuestions(event) {
+      // process menu to display
+      if (document.getElementsByClassName("faq__controller__menu__category active")[0]) {
+          document.getElementsByClassName("faq__controller__menu__category active")[0].classList.remove("active");
+      }
+      event.currentTarget.classList.add("active");
+      
+      // safe questions from clicked category
+      let category=this.faq.find(category => category.menu==event.currentTarget.lastChild.innerText);
+      this.activeCategory=category;
+    },
+    toggleAnswer(event) {
+      // process menu to display
+      event.currentTarget.classList.toggle("active");
+    },
   }
 }
 console.log(faqData);
@@ -36,11 +69,45 @@ console.log(faqData);
 </script>
 
 
-<style>
-.controller{
-    @apply w-1/4;
-}
-.display{
-    @apply w-3/4;
+<style lang="scss">
+
+.faq{
+  &__controller{
+      @apply w-1/4 bg-muted h-full;
+
+      &__menu{
+        @apply m-4;
+
+        &__category{
+          &.active{
+            @apply text-text;
+          }
+        }
+      }
+
+      &__search{
+        @apply m-4 relative lg:flex items-center;
+      }
+  }
+  &__display{
+      @apply w-3/4 bg-primary h-full;
+
+      &__questions{
+        &__questionWrapper{
+          @apply text-gray cursor-pointer;
+
+          &.active{
+            .faq__display__questions__questionWrapper__answer{
+              @apply block;
+            }
+          }
+
+          &__answer{
+            @apply hidden;
+          }
+        }
+      }
+  }
+  
 }
 </style>
