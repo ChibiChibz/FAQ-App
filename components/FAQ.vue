@@ -7,7 +7,7 @@
             </li>
           </ul>
           <div class="faq__controller__search">
-            <input type="text" name="search" v-model="input" placeholder="Search keywords..." id="search" class="shadow-sm px-2 focus:ring-brand focus:border-brand block w-full lg:pr-12 sm:text-sm border-gray-300 rounded-sm" />
+            <input type="text" name="search" v-model="input" placeholder="Search keywords..." id="search" class="faq__controller__search-form " />
           </div>
         </div>
         <div class="faq__display">
@@ -16,6 +16,14 @@
               <li  v-for="question in activeCategory.fragen" @click="toggleAnswer" class="faq__display__questions__questionWrapper " >
                 <div class="faq__display__questions__questionWrapper__question">{{question.frage}}</div>
                 <div class="faq__display__questions__questionWrapper__answer" v-html="question.antwort"></div>
+              </li>
+            </ul>
+          </div>
+          <div v-if="input" class="relative">
+            <ul class="faq__display__questions m-4">
+              <li  v-for="question in filteredQuestions" @click="toggleAnswer" class="faq__display__questions__questionWrapper " >
+                <div class="faq__display__questions__questionWrapper__question">{{question.question}}</div>
+                <div class="faq__display__questions__questionWrapper__answer" v-html="question.answer"></div>
               </li>
             </ul>
           </div>
@@ -44,6 +52,7 @@ export default {
       faq: faqData,
       activeCategory: undefined,
       input: '',
+      questions: [],
     }
   },
   methods: {
@@ -68,9 +77,31 @@ export default {
       // process menu to display
       event.currentTarget.classList.toggle("active");
     },
+  },
+  mounted(){
+    self=this;
+    this.faq.forEach(category => {
+      category.fragen.forEach(pair => {
+        this.questions.push({question: pair.frage, answer: pair.antwort})
+      });
+    });
+    console.log(this.questions);
+  }
+  ,
+  computed: {
+    filteredQuestions() {
+      if (this.input) {
+        console.log(this.input);
+        console.log(this.questions.filter(pair => {
+          return this.input.toLowerCase().split(" ").every(v => pair.question.toLowerCase().includes(v) || pair.answer.toLowerCase().includes(v));
+        }));
+        return this.questions.filter(pair => {
+          return this.input.toLowerCase().split(" ").every(v => pair.question.toLowerCase().includes(v) || pair.answer.toLowerCase().includes(v));
+        });
+      } 
+    }
   }
 }
-console.log(faqData);
 
 </script>
 
@@ -93,6 +124,10 @@ console.log(faqData);
 
       &__search{
         @apply m-4 relative lg:flex items-center;
+
+        &-form{
+          @apply shadow-sm px-2 focus:ring-brand focus:border-brand block w-full lg:pr-12 sm:text-sm  rounded-sm;
+        }
       }
   }
   &__display{
