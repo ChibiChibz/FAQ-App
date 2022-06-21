@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="faq__display">
-          <div v-if="activeCategory" class="relative">
+          <div v-if="activeCategory && !input" class="relative">
             <ul class="faq__display__questions m-4">
               <li  v-for="question in activeCategory.fragen" @click="toggleAnswer" class="faq__display__questions__questionWrapper " >
                 <div class="faq__display__questions__questionWrapper__question">{{question.frage}}</div>
@@ -91,10 +91,13 @@ export default {
   computed: {
     filteredQuestions() {
       if (this.input) {
-        console.log(this.input);
-        console.log(this.questions.filter(pair => {
-          return this.input.toLowerCase().split(" ").every(v => pair.question.toLowerCase().includes(v) || pair.answer.toLowerCase().includes(v));
-        }));
+        while (document.getElementsByClassName("faq__display__questions__questionWrapper active")[0]) {
+          document.getElementsByClassName("faq__display__questions__questionWrapper active")[0].classList.remove("active");
+        }
+        // console.log(this.input);
+        // console.log(this.questions.filter(pair => {
+        //   return this.input.toLowerCase().split(" ").every(v => pair.question.toLowerCase().includes(v) || pair.answer.toLowerCase().includes(v));
+        // }));
         return this.questions.filter(pair => {
           return this.input.toLowerCase().split(" ").every(v => pair.question.toLowerCase().includes(v) || pair.answer.toLowerCase().includes(v));
         });
