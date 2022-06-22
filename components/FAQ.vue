@@ -83,14 +83,21 @@ export default {
       
     },
     toggleAnswer(event) {
-      while (document.getElementsByClassName("faq__display__questions__questionWrapper active")[0]) {
+      if(event.currentTarget.parentElement.classList.contains("active")){
+        while (document.getElementsByClassName("faq__display__questions__questionWrapper active")[0]) {
           document.getElementsByClassName("faq__display__questions__questionWrapper active")[0].classList.remove("active");
+        }
+      } else {
+        while (document.getElementsByClassName("faq__display__questions__questionWrapper active")[0]) {
+          document.getElementsByClassName("faq__display__questions__questionWrapper active")[0].classList.remove("active");
+        }
+        event.currentTarget.parentElement.classList.add("active");
       }
-      event.currentTarget.parentElement.classList.toggle("active");
     },
   },
   mounted(){
     //collecting all questions to one Object Array when loading the app
+    console.log(faqData);
     this.faq.forEach(category => {
       category.fragen.forEach(pair => {
         this.questions.push({question: pair.frage, answer: pair.antwort})
