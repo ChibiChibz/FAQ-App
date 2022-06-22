@@ -83,6 +83,9 @@ export default {
       
     },
     toggleAnswer(event) {
+      while (document.getElementsByClassName("faq__display__questions__questionWrapper active")[0]) {
+          document.getElementsByClassName("faq__display__questions__questionWrapper active")[0].classList.remove("active");
+      }
       event.currentTarget.parentElement.classList.toggle("active");
     },
   },
