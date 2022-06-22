@@ -36,7 +36,7 @@ module.exports = {
     colors: {
       transparent: 'transparent',
       current: 'currentColor',
-      brand: '#00ee4d',
+      brand: '#096796',
       text: '#000000',
       gray: '#515b6b',
       muted: '#d7d7d7',

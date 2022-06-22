@@ -14,23 +14,24 @@
             <p>
               The menu function and search function are implemented. Search has priority, which means when something is typed in the input the menu doesn't work.
             </p>
-            <p>TODO: Styling, change activation area from li to the question div (right now answer also activates toggle)</p>
+            <p>TODO: Styling</p>
             <p>Nice to have: transition and proper icons</p>
           </div>
         </div>
         <div class="faq__display">
           <div v-if="activeCategory && !input" class="relative">
             <ul class="faq__display__questions m-4">
-              <li  v-for="question in activeCategory.fragen" @click="toggleAnswer" class="faq__display__questions__questionWrapper " >
-                <div class="faq__display__questions__questionWrapper__question">{{question.frage}}</div>
+              <li class="faq__display__questions__headline"><strong>{{activeCategory.menu}}</strong></li>
+              <li  v-for="question in activeCategory.fragen" class="faq__display__questions__questionWrapper " >
+                <div @click="toggleAnswer" class="faq__display__questions__questionWrapper__question">{{question.frage}}</div>
                 <div class="faq__display__questions__questionWrapper__answer" v-html="question.antwort"></div>
               </li>
             </ul>
           </div>
           <div v-if="input" class="relative">
             <ul class="faq__display__questions m-4">
-              <li  v-for="question in filteredQuestions" @click="toggleAnswer" class="faq__display__questions__questionWrapper " >
-                <div class="faq__display__questions__questionWrapper__question">{{question.question}}</div>
+              <li  v-for="question in filteredQuestions"  class="faq__display__questions__questionWrapper " >
+                <div @click="toggleAnswer" class="faq__display__questions__questionWrapper__question">{{question.question}}</div>
                 <div class="faq__display__questions__questionWrapper__answer" v-html="question.answer"></div>
               </li>
             </ul>
@@ -82,8 +83,7 @@ export default {
       
     },
     toggleAnswer(event) {
-      // process menu to display
-      event.currentTarget.classList.toggle("active");
+      event.currentTarget.parentElement.classList.toggle("active");
     },
   },
   mounted(){
@@ -117,21 +117,21 @@ export default {
 
 .faq{
   &__controller{
-      @apply w-1/4 bg-muted text-gray h-full p-4;
+      @apply w-1/4 bg-white text-brand h-full p-4;
 
       &__menu{
 
         &__category{
-          @apply  cursor-pointer;
+          @apply opacity-50 cursor-pointer;
 
           &.active{
-            @apply text-text;
+            @apply opacity-100;
           }
         }
       }
 
       &__search{
-        @apply relative lg:flex items-center my-8;
+        @apply relative lg:flex items-center my-4 p-4 bg-brand bg-opacity-50 rounded-md;
 
         &-form{
           @apply shadow-sm focus:ring-brand focus:border-brand block w-full lg:pr-12 sm:text-sm  rounded-sm;
@@ -139,22 +139,26 @@ export default {
       }
 
       &__notes{
-        @apply text-sm;
+        @apply text-sm opacity-50;
       }
   }
   &__display{
-      @apply w-3/4 bg-primary h-full;
+      @apply w-3/4 bg-white h-full;
 
       &__questions{
+
+        &__headline{
+          @apply bg-brand text-white rounded-tr-lg py-1 px-2;
+        }
         &__questionWrapper{
-          @apply text-gray cursor-pointer py-2;
+          @apply text-gray cursor-pointer py-1 px-2 my-1 bg-brand rounded-tr-lg bg-opacity-50;
 
           &.active{
             .faq__display__questions__questionWrapper__question{
-              @apply bg-gray text-white;
+              @apply  font-bold;
             }
             .faq__display__questions__questionWrapper__answer{
-              @apply block bg-white;
+              @apply mt-4 block;
             }
           }
 
