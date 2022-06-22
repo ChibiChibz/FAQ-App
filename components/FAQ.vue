@@ -12,9 +12,8 @@
           <div class="faq__controller__notes">
             <h6>Notes:</h6>
             <p>
-              The menu function and search function are implemented. Search has priority, which means when something is typed in the input the menu doesn't work.
+              The menu function and search function are implemented. Search has priority, which means when something is typed in the input the menu doesn't display the questions, just the search results.
             </p>
-            <p>TODO: Styling</p>
             <p>Nice to have: transition and proper icons</p>
           </div>
         </div>
